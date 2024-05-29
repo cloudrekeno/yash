@@ -1,0 +1,18 @@
+name: Restrict main merges
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check source branch
+        run: |
+          if [[ "${{ github.event.pull_request.head.ref }}" != "demo" ]]; then
+            echo "Merges to prod are only allowed from the staging branch."
+            exit 1
+          fi
